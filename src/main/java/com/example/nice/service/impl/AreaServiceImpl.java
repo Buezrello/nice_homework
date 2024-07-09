@@ -26,11 +26,25 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public int calculateArea(int index1, int index2) {
         List<Height> heights = heightRepository.findAll();
-        int area = 0;
-        for (int i = index1; i <= index2; i++) {
-            area += heights.get(i).getValue();
+
+        if (index1 < 0 || index2 >= heights.size() || index1 >= index2) {
+            throw new IllegalArgumentException("Invalid indices for area calculation.");
         }
-        return area;
+
+//        int leftMax = heights.get(index1).getValue();
+//        int rightMax = heights.get(index2).getValue();
+//        int minHeight = Math.min(leftMax, rightMax);
+//
+//        int area = 0;
+//
+//        for (int i = index1 + 1; i < index2; i++) {
+//            area += minHeight - heights.get(i).getValue();
+//        }
+
+        int width = index2 - index1;
+        int height = Math.min(heights.get(index1).getValue(), heights.get(index2).getValue());
+
+        return width * height;
     }
 
     @Override
